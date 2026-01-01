@@ -1,0 +1,23 @@
+name: main workflow
+
+on: pull_request_target
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: install dependency
+        run: npm install
+
+      - name: run test
+        run: npm test
